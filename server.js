@@ -1,5 +1,5 @@
 import { fastify } from "fastify";
-import { databaseMemory } from "./database.js";
+import { databaseMemory } from "./database_postgres.js";
 
 const app = fastify();
 
