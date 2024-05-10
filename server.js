@@ -1,15 +1,16 @@
 import { fastify } from "fastify";
-import { databaseMemory } from "./database_postgres.js";
+import { databasePostgres } from "./database_postgres.js";
 
 const app = fastify();
 
-const database = new databaseMemory();
+//const database = new databaseMemory();
+const database = new databasePostgres();
 
 app.post("/videos", async (request, reply) => {
 
     const { title, description, duration } = request.body;
 
-    database.create({
+    await database.create({
         title,
         description,
         duration,
@@ -22,7 +23,7 @@ app.get("/videos", async (request, reply) => {
 
     const search = request.query.search;
 
-    const videos = database.list(search);
+    const videos = await database.list(search);
 
     return reply.send(videos);
 });
@@ -38,7 +39,7 @@ app.put("/videos/:id", async (request, reply) => {
 app.delete("/videos/:id", async (request, reply) => {
     const videoId = request.params.id;
 
-    database.delete(videoId);
+    await database.delete(videoId);
 
     return reply.status(204).send();
 });
