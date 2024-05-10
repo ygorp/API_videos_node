@@ -19,7 +19,10 @@ app.post("/videos", async (request, reply) => {
 });
 
 app.get("/videos", async (request, reply) => {
-    const videos = database.list();
+
+    const search = request.query.search;
+
+    const videos = database.list(search);
 
     return reply.send(videos);
 });
@@ -33,7 +36,11 @@ app.put("/videos/:id", async (request, reply) => {
 });
 
 app.delete("/videos/:id", async (request, reply) => {
-    return { hello: "world" };
+    const videoId = request.params.id;
+
+    database.delete(videoId);
+
+    return reply.status(204).send();
 });
 
 app.listen({
