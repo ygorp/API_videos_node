@@ -25,7 +25,11 @@ app.get("/videos", async (request, reply) => {
 });
 
 app.put("/videos/:id", async (request, reply) => {
-    return { hello: "world" };
+    const videoId = request.params.id;
+
+    database.update(videoId, request.body);
+
+    return reply.status(204).send();
 });
 
 app.delete("/videos/:id", async (request, reply) => {
